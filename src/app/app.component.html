@@ -1,0 +1,59 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-sm-6 offset-3">
+      <form [formGroup]="form" (submit)="submitForm()">
+        <div class="form-row">
+          <div class="col">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="First name"
+              formControlName="firstName"
+            />
+          </div>
+          <div class="col">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Last name"
+              formControlName="lastName"
+            />
+          </div>
+        </div>
+    <h6 class="mt-5">How should we contact you?</h6>
+    <input type="radio" formControlName="contactMethod" value="phone"> Phone
+    <input type="radio" formControlName="contactMethod" value="email"> Email
+        <div *ngIf="form.get('contactMethod')?.value === 'phone'">
+          <input
+            type="text"
+            formControlName="phoneNumber"
+            placeholder="Phone Number"
+          />
+        </div>
+        <div *ngIf="form.get('contactMethod')?.value === 'email'">
+          <input
+            type="email"
+            formControlName="emailAddress"
+            placeholder="Email Address"
+          />
+        </div>
+        <button type="submit" class="mx-3">submit</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- <form [formGroup]="form" (ngSubmit)="submitForm()">
+  <input type="radio" formControlName="contactMethod" value="phone"> Phone
+  <input type="radio" formControlName="contactMethod" value="email"> Email
+
+  <div *ngIf="form.get('contactMethod')?.value === 'phone'">
+    <input type="text" formControlName="phoneNumber" placeholder="Phone Number">
+  </div>
+
+  <div *ngIf="form.get('contactMethod')?.value === 'email'">
+    <input type="email" formControlName="emailAddress" placeholder="Email Address">
+  </div>
+
+  <button type="submit">Submit</button>
+</form> -->
