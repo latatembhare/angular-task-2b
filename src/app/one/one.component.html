@@ -1,195 +1,47 @@
-<div class="container">
+<div class="container formborder mt-5">
   <div class="row">
-    <div class="col-sm-8">
-      <form (submit)="onSubmit(myForm)" #myForm="ngForm">
-        <div class="form-group">
-          <label for="firstName">First Name</label>
+    <div class="col-sm-6 offset-3">
+      <form [formGroup]="form" (submit)="submitForm()">
+        <div class="form-row">
+          <div class="col">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="First name"
+              formControlName="firstName"
+            />
+          </div>
+          <div class="col">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Last name"
+              formControlName="lastName"
+            />
+          </div>
+        </div>
+        <h6 class="mt-5">How should we contact you?</h6>
+        <select formControlName="contactMethod" class="mb-5">
+          <option value="">Select Contact Method</option>
+          <option value="phone">Phone</option>
+          <option value="email">Email</option>
+        </select>
+        <div *ngIf="form.get('contactMethod')?.value === 'phone'">
           <input
             type="text"
-            ngModel
-            #myFirstName="ngModel"
-            name="firstName"
-            class="form-control form-control-sm"
-            id="firstName"
-            required
+            formControlName="phoneNumber"
+            placeholder="Phone Number"
           />
-          <span
-            class="text text-danger"
-            *ngIf="
-              (!myFirstName.valid && myFirstName.touched) ||
-              (myForm.submitted && myForm.touched && !myForm.valid && !myFirstName.valid)
-            "
-            >firstname is required</span
-          >
         </div>
-        <div class="form-group">
-          <label for="lastName">Last Name</label>
+        <div *ngIf="form.get('contactMethod')?.value === 'email'">
           <input
-            type="text"
-            ngModel
-            name="lastName"
-            class="form-control form-control-sm"
-            id="lastName"
+            type="email"
+            formControlName="emailAddress"
+            placeholder="Email Address"
           />
         </div>
-        <div
-          ngModelGroup="userContactDetails"
-        >
-          <div class="form-group">
-            <label for="userEmail">Email address</label>
-            <input
-              type="text"
-              ngModel
-              name="userEmail"
-              class="form-control form-control-sm"
-              id="userEmail"
-              #myEmailControl="ngModel"
-              required
-              email
-            />
-             <span
-              class="text text-danger"
-              *ngIf="
-                (!myEmailControl.valid &&
-                  myEmailControl.touched) ||
-                (myForm.submitted &&
-                  !myForm.valid &&
-                  !myEmailControl.valid)
-              "
-            > 
-              <ng-container
-                *ngIf="myEmailControl.errors?.['required']"
-                >Email is required</ng-container
-              >
-              <ng-container
-                *ngIf="myEmailControl.errors?.['email']"
-                >Email is not valid</ng-container
-              ></span
-            > 
-          </div>
-          <div class="form-group">
-            <label for="contact">Contact</label>
-            <input
-              type="text"
-              name="contact"
-              class="form-control form-control-sm"
-              id="contact"
-              #contactDetail="ngModel"
-              required
-              minlength="10"
-              maxlength="10"
-              [(ngModel)]="dynamicNumberDiff"
-            />
-            <span
-              class="text text-danger"
-              *ngIf="
-                (!contactDetail.valid &&
-                  contactDetail.touched) ||
-                (myForm.submitted &&
-                  !myForm.valid && myForm.touched &&
-                  !contactDetail.valid)
-              "
-            >
-              <ng-container
-                *ngIf="contactDetail.errors?.['required']"
-                >contact number is required</ng-container
-              >
-              <ng-container
-                *ngIf="contactDetail.errors?.['minlength']"
-                >contact number should be {{ minlength }} digits and insert <
-                {{ minlength - contactDetail.errors?.['minlength'].actualLength }}
-                > more numbers</ng-container
-              >
-            </span>
-          </div>
-          <!-- <div class="text-danger" *ngIf="!userContactDetails.valid && myForm.submitted">
-            some of the field does not have valid value
-          </div> -->
-        </div>
-        <div ngModelGroup="userBankDetails" #userBankDetails="ngModelGroup">
-          <div class="form-group">
-            <label for="bankName">Bank name</label>
-            <input
-              type="text"
-              ngModel
-              name="bankName"
-              class="form-control form-control-sm"
-              id="bankName" required=""
-            />
-            <!-- <span
-              class="text text-danger"
-              *ngIf="
-                (!myForm.controls['bankName']?.valid &&
-                  myForm.controls['bankName']?.touched) ||
-                (myForm.submitted &&
-                  !myForm.valid && !myForm.controls['bankName']?.valid
-                  )
-              "
-            >
-              Bank name is required
-            </span> -->
-          </div>
-          <div class="form-group">
-            <label for="bankCo">Bank IFSC code</label>
-            <input
-              type="text"
-              ngModel
-              name="bankCo"
-              class="form-control form-control-sm"
-              id="bankCo" required=""
-            />
-            <!-- <span
-              class="text text-danger"
-              *ngIf="
-                (!myForm.controls['bankCo']?.valid &&
-                  myForm.controls['bankCo']?.touched) ||
-                (myForm.submitted &&
-                  !myForm.valid &&
-                  !myForm.controls['bankCo']?.valid)
-              "
-            >
-              Bank IfSc is required
-            </span> -->
-          </div>
-          <div class="form-group">
-            <label for="bankAc">Bank account no</label>
-            <input
-              type="text"
-              ngModel
-              name="bankAc"
-              class="form-control form-control-sm"
-              id="bankAc" required=""
-            />
-            <!-- <span
-              class="text text-danger"
-              *ngIf="
-                (!myForm.controls['bankAc']?.valid &&
-                  myForm.controls['bankAc']?.touched) ||
-                (myForm.submitted &&
-                  !myForm.valid &&
-                  !myForm.controls['bankAc']?.valid)
-              "
-            >
-              Bank account no is required
-            </span> -->
-          </div>
-          <div class="text-danger" *ngIf="!userBankDetails.valid && myForm.submitted && myForm.touched ">
-            some of the account field does not have valid value
-          </div>
-        </div>
-        <button type="button" class="btn btn-info" (click)="setDefaultValue()">SetDefault value</button>
-        <button type="button" class="btn btn-info" (click)="setDefaultPatchValue()">SetDefault Patch value</button>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="mx-3 mt-3 btn-success">submit</button>
       </form>
     </div>
   </div>
 </div>
-<!-- <div class="form-group">
-  <label for="emailId">Email</label>
-  <input type="text" class="form-control form-control-sm" id="emailId" ngModel name="userEmail" required email #myEmailControl="ngModel">
-  <span class="small text-danger" *ngIf="(!myEmailControl.valid && myEmailControl?.touched) || (myForm.submitted && !myForm.valid && !myEmailControl?.valid)">
-    <ng-container *ngIf="myEmailControl?.errors?.['required']">Email is required!</ng-container>
-    <ng-container *ngIf="myEmailControl?.errors?.['email']">Please insert a proper email-id!</ng-container>
-  </span>
-</div> -->

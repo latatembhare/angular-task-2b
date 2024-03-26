@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
-
 @Component({
   selector: 'app-root',
   // standalone: true,
@@ -19,12 +18,8 @@ export class AppComponent {
       contactMethod: [''], // Initially no option selected
       phoneNumber: [''],
       emailAddress: ['']
-    });
-
-    // Add validator for required contact method
-    this.form.get('contactMethod')?.setValidators(Validators.required);
+    });    
   }
-
   submitForm() {
    console.log(this.form.value) 
   }

@@ -4,7 +4,7 @@ import { OneComponent } from './one/one.component';
 import { NgModule } from '@angular/core';
 
 const routes: Routes = [
- 
+ {path:'one',component:OneComponent}
   
 ];
 @NgModule({
